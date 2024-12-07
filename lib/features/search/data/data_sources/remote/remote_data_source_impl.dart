@@ -10,9 +10,11 @@ class SearchRemoteDataSourceImpl implements IRemoteSearchDataSource {
   @override
   Future<List<ProductModel>> fireTheSearch({required String keyword}) async {
     final Response response = await dioService.makeRESTrequest(
-      urlPath: "https://fakestoreapi.com/products",
+      urlPath: "products",
       method: RequestMethod.getRequest,
     );
-    return [ProductModelModel.fromJson(response.data)];
+    final List productsMap = response.data;
+    return List<ProductModel>.from(
+        productsMap.map((element) => ProductModel.fromJson(element)));
   }
 }

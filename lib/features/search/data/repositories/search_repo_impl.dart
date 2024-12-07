@@ -4,7 +4,7 @@ import 'package:sup_labs_task/core/error/common_failures.dart';
 import 'package:sup_labs_task/core/error/failure.dart';
 import 'package:sup_labs_task/core/error/network_exceptions.dart';
 import 'package:sup_labs_task/features/search/data/data_sources/remote/remote_data_source.dart';
-import 'package:sup_labs_task/features/search/domain/entities/product.dart';
+import 'package:sup_labs_task/features/search/data/model/product_model.dart';
 import 'package:sup_labs_task/features/search/domain/repositories/search_repo.dart';
 
 class SearchRepoImpl implements ISearchRepo {
@@ -12,10 +12,10 @@ class SearchRepoImpl implements ISearchRepo {
 
   SearchRepoImpl({required this.searchDataSource});
   @override
-  Future<Either<Failure, List<Product>>> searchProducts(
+  Future<Either<Failure, List<ProductModel>>> searchProducts(
       {required String name}) async {
     try {
-      final List<Product> result =
+      final List<ProductModel> result =
           await searchDataSource.fireTheSearch(keyword: name);
       return right(result);
     } on DioException catch (err) {
@@ -27,3 +27,5 @@ class SearchRepoImpl implements ISearchRepo {
     }
   }
 }
+
+    

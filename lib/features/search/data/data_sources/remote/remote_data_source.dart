@@ -1,5 +1,5 @@
-import 'package:sup_labs_task/features/search/domain/entities/product.dart';
+import 'package:sup_labs_task/features/search/data/model/product_model.dart';
 
 abstract interface class IRemoteSearchDataSource {
-  Future<List<Product>> fireTheSearch({required String keyword});
+  Future<List<ProductModel>> fireTheSearch({required String keyword});
 }

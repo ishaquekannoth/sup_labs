@@ -1,3 +1,3 @@
 class UrlStrings {
-  static String baseUrl = "";
+  static String baseUrl = "https://fakestoreapi.com/";
 }

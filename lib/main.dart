@@ -5,7 +5,8 @@ import 'package:sup_labs_task/core/routes/route_generator.dart';
 import 'package:sup_labs_task/di.dart';
 import 'package:sup_labs_task/features/search/presentation/bloc/search_bloc.dart';
 
-void main() {
+void main() async {
+  await initDependencies();
   runApp(const MyApp());
 }
 
