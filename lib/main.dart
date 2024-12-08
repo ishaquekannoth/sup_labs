@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => serviceLocator<SearchBloc>()),
         ],
         child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           routerConfig: RouteGenerator.router,
           title: 'E-Commerce App',
           theme: ThemeData(

@@ -19,11 +19,16 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap != null ? () => onTap!(product) : null,
       child: Container(
-        padding: EdgeInsets.only(top: 10.h, left: 10.w),
+        padding: EdgeInsets.only(top: 10.h, left: 10.w, bottom: 5.h),
         height: 240.h,
         width: 180.w,
-        decoration:
-            BoxDecoration(border: Border.all(), color: AppColors.pearlWhite),
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1), // Subtle shadow
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ], color: AppColors.pearlWhite),
         child: Stack(
           children: [
             Column(
