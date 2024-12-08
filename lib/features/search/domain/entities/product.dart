@@ -22,7 +22,7 @@ extension GetStrikedPrice on Product {
   String getStrikedPrice() {
     final pr = double.tryParse(price);
     if (pr != null) {
-      return (pr * 1.4).toString();
+      return (pr * 1.4).toStringAsFixed(2);
     } else {
       return price;
     }

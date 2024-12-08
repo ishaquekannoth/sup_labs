@@ -7,15 +7,30 @@ sealed class SearchEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class SearchEventFireSearch extends SearchEvent {
-  final String keyWord;
-  const SearchEventFireSearch({required this.keyWord});
+class SearchLoadProducts extends SearchEvent {
+  const SearchLoadProducts();
 
-  SearchEventFireSearch copyWith({
+  SearchLoadProducts copyWith({
     String? keyWord,
   }) {
-    return SearchEventFireSearch(
+    return const SearchLoadProducts();
+  }
+}
+
+class SearchEventLocalSearch extends SearchEvent {
+  final String keyWord;
+  const SearchEventLocalSearch({required this.keyWord});
+
+  SearchEventLocalSearch copyWith({
+    String? keyWord,
+  }) {
+    return SearchEventLocalSearch(
       keyWord: keyWord ?? this.keyWord,
     );
   }
+}
+
+class SearchToggleFavourite extends SearchEvent {
+  final Product product;
+  const SearchToggleFavourite({required this.product});
 }

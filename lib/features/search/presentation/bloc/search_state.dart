@@ -18,6 +18,11 @@ final class SearchSuccess extends SearchState {
   List<Object> get props => [products];
   @override
   bool? get stringify => true;
+  SearchSuccess copyWith({List<Product>? products}) {
+    return SearchSuccess(
+      products: products ?? this.products,
+    );
+  }
 }
 
 final class SearchFailure extends SearchState {
