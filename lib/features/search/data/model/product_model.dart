@@ -13,12 +13,12 @@ class ProductModel extends Product {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      title: json['title'],
+      title: json['title'].toString(),
       id: json['id'].toString(),
       rating: json['rating']['rate'],
-      imageUrl: json['image'],
+      imageUrl: json['image'].toString(),
       price: json['price'].toString(),
-      description: json['description'],
+      description: json['description'].toString(),
     );
   }
 
@@ -39,5 +39,6 @@ class ProductModel extends Product {
   }
 
   @override
-  List<Object?> get props => [title, id, imageUrl, description, price, isFavourite];
+  List<Object?> get props =>
+      [title, id, imageUrl, description, price, isFavourite];
 }

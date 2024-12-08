@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sup_labs_task/core/common/widgets/utility_widgets/generic_button.dart';
 import 'package:sup_labs_task/features/search/presentation/bloc/search_bloc.dart';
 import 'package:sup_labs_task/features/search/presentation/widgets/product_card.dart';
 
@@ -28,6 +29,12 @@ class _SearchViewState extends State<SearchView> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -39,8 +46,12 @@ class _SearchViewState extends State<SearchView> {
                 children: [
                   Expanded(
                     child: TextField(
-                      enabled:
-                          context.watch<SearchBloc>().state is! SearchLoading,
+                      onChanged: (value) {
+                        _performSearch();
+                      },
+                      enabled: context.watch<SearchBloc>().state
+                              is! SearchLoading &&
+                          context.watch<SearchBloc>().state is! SearchFailure,
                       controller: _searchController,
                       decoration: InputDecoration(
                         hintText: 'Search products...',
@@ -48,14 +59,12 @@ class _SearchViewState extends State<SearchView> {
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                       ),
-                      onSubmitted: (_) => _performSearch(),
                     ),
                   ),
                   SizedBox(width: 10.w),
                 ],
               ),
             ),
-            // Results Section
             Expanded(
               child: BlocBuilder<SearchBloc, SearchState>(
                 builder: (context, state) {
@@ -95,13 +104,11 @@ class _SearchViewState extends State<SearchView> {
                       );
                     case SearchFailure():
                       return Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            context
-                                .read<SearchBloc>()
-                                .add(const SearchLoadProducts());
-                          },
-                          child: const Text("Fetch"),
+                        child: GenericButton(
+                          buttonDimensions:
+                              Size(ScreenUtil().screenWidth * 0.7, 60.h),
+                          buttonData: "",
+                          buttonTitle: "Loading failed..click to retry",
                         ),
                       );
                   }

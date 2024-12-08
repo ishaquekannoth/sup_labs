@@ -40,6 +40,8 @@ class DioService {
     dio.interceptors.addAll(
       [
         RetryInterceptor(
+            retries: 1,
+            retryDelays: [const Duration(seconds: 2)],
             retryEvaluator: (error, attempt) => error.error is! SocketException,
             logPrint: (message) => log(message),
             dio: dio),

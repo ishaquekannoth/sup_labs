@@ -10,6 +10,7 @@ part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final SearchUsecase _searchUsecase;
+  List<ProductModel> allProducts = [];
   SearchBloc({required SearchUsecase useCase})
       : _searchUsecase = useCase,
         super(SearchInitial()) {
@@ -22,21 +23,26 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       SearchLoadProducts event, Emitter<SearchState> emit) async {
     emit(SearchLoading());
     final result = await _searchUsecase(parameters: '');
-    result.fold(
-        (failure) => emit(SearchFailure(failure: failure)),
-        (success) =>
-            emit(SearchSuccess(products: success as List<ProductModel>)));
+    result.fold((failure) => emit(SearchFailure(failure: failure)), (success) {
+      allProducts = success as List<ProductModel>;
+      emit(SearchSuccess(products: success));
+    });
   }
 
   void _onSearch(
       SearchEventLocalSearch event, Emitter<SearchState> emit) async {
-    emit(SearchLoading());
-    final result = await _searchUsecase(parameters: event.keyWord);
-
-    result.fold(
-        (failure) => emit(SearchFailure(failure: failure)),
-        (success) =>
-            emit(SearchSuccess(products: success as List<ProductModel>)));
+    if (event.keyWord.isEmpty) {
+      return emit(SearchSuccess(products: allProducts));
+    }
+    final List<Product> filteredProducts = allProducts
+        .where((product) =>
+            product.title.toLowerCase().contains(event.keyWord.toLowerCase()))
+        .toList();
+    if (filteredProducts.isNotEmpty) {
+      emit(SearchSuccess(products: filteredProducts));
+    } else {
+      emit(SearchSuccess(products: allProducts));
+    }
   }
 
   void _toggleFavourite(
